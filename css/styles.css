@@ -1,4 +1,11 @@
 
+/*
+==== 
+placeholder styling
+====
+*/
+
+
 
 body {
   font-family: sans-serif;
@@ -7,16 +14,24 @@ body {
 }
 
 div.section-block {
-	display: block; 
-	width: 100%; 
-	position: relative;
-	margin: 2em auto;
-	padding: 10% auto;
+	display: block; 	width: 100%; position: relative;
+	margin: 2em auto; padding: 10% auto;
 }
 
 #section1, #section3 {min-height: 1400px;}
 
+#section1 p , #section3 p {font-size: 1.1em; text-align: center; padding: 4em;}
+
 h2.sectionTitle {text-align: center;}
+
+
+/*
+==== 
+end of placeholder styling
+====
+*/
+
+
 
 div#map {
 	width: 100%;
@@ -70,7 +85,8 @@ ul#minerals {
 
 ul#minerals li { 
 	list-style-type: none; 
-	height: 3em;
+	height: 3.4em;
+	color: #fff; 
 	margin: 5% 10%;
 	padding: 1em 0em;
 	position: relative;
@@ -79,8 +95,6 @@ ul#minerals li {
   justify-content: center; 
   background-color: cadetblue; /*(placeholder)*/
 }
-
-path.arc { fill: none; stroke-width: 3px; }
 
 ul#minerals li.graphite {background-color: #dfbf9f} 
 path.arc.graphite { stroke: #dfbf9f; } 
@@ -97,17 +111,12 @@ path.arc.rareearthelements { stroke: #cca300;}
 path.nation.rareearthelements { fill: #cca300; }
 h5.rareearthelements {color: #cca300} 
 
-ul#minerals li div div {
-	display: inline-block;
-	vertical-align: middle; 
-	padding: 0 0.5em 0 0.5em;
-}
 
 div.elementTitle { 
 	/*display: inline-block; */
 	position: absolute; left: 1em;
 	vertical-align: middle; 
-	font-size: 1.6em; font-weight: 800; 
+	font-size: 2em; font-weight: 800; 
 	text-transform: uppercase;
 }
 
@@ -115,15 +124,22 @@ div.elementStats {
 	right: 1em; position: absolute;
 }
 
-div.production {border-right: 1px solid black;}
+div.elementStats div {
+	display: inline-block;
+	vertical-align: middle; 
+	padding: 0 0.5em 0 0.5em;
+	font-weight: 400;
+}
 
 ul#minerals li span.figure { 
 	padding: 0.1em 0 0.1em 0; 
-	font-size: 2em; font-weight: 800; 
+	font-size: 2.5em; font-weight: 800; 
 	display: block;
 	width: 100%;
 	text-align: center;
 }
+
+div.production {border-right: 1px solid black;}
 
 
 
@@ -145,11 +161,12 @@ path.graticule {fill: none; stroke: #eee;}
 
 svg text { font-family: sans-serif; stroke: none; fill: #222 }
 
+
+path.arc { fill: none; stroke-width: 2px; }
+
 path.nation {cursor: pointer; stroke: #aaa; stroke-width: 1px; fill: #f0f0f0;}
 text.label {font-size: 9px;}
 text.title {font-size: 12px; font-weight: 800;}
-.mouseover {display: none; pointer-events: none; cursor: pointer; text-anchor: middle;}
-
 
 /*Responsive CSS (in progress)*/
 
