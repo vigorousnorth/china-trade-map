@@ -1,0 +1,159 @@
+
+
+body {
+  font-family: sans-serif;
+  margin: 10px auto;
+  font-size: 12px;
+}
+
+div.section-block {
+	display: block; 
+	width: 100%; 
+	position: relative;
+	margin: 2em auto;
+	padding: 10% auto;
+}
+
+#section1, #section3 {min-height: 1400px;}
+
+h2.sectionTitle {text-align: center;}
+
+div#map {
+	width: 100%;
+	position: sticky; 
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0; height: 10em;
+  z-index: 0;
+}
+
+
+/*Map infobox styles*/
+
+#mapInfoBox {
+	position: absolute;
+	border: 2px solid #000;
+	padding: 1em;
+	background-color: #fff;
+	width: 15%; height: auto;
+	min-width: 300px;
+	z-index: 50;
+	pointer-events: none;
+}
+
+.hidden {visibility: hidden;}
+
+#infoBox_Country {
+	width: 100%;
+	border-bottom: 1px solid #222;
+	font-size: 1.2em; text-transform: uppercase; font-weight: 800;
+}
+#infoBox_Mineral {font-size: 1em; text-transform: uppercase; font-weight: 800;}
+#infoBox_Aquisitions{font-size: 0.9em; text-transform: uppercase;}
+
+
+
+/*Section 2 minerals table styles*/
+
+div#mineralsTable { 
+  position: relative; top: 0px; left: 0px;
+  text-align: center;
+  width: 100%; height: auto; 
+	z-index: 100; 
+}
+
+ul#minerals { 
+	display: block; 
+	margin: 0 auto;
+	padding: 0; 
+}
+
+ul#minerals li { 
+	list-style-type: none; 
+	height: 3em;
+	margin: 5% 10%;
+	padding: 1em 0em;
+	position: relative;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background-color: cadetblue; /*(placeholder)*/
+}
+
+path.arc { fill: none; stroke-width: 3px; }
+
+ul#minerals li.graphite {background-color: #dfbf9f} 
+path.arc.graphite { stroke: #dfbf9f; } 
+path.nation.graphite { fill: #dfbf9f; }
+h5.graphite {color: #dfbf9f} 
+
+ul#minerals li.vanadium {background-color: #e67300} 
+path.arc.vanadium { stroke: #e67300; } 
+path.nation.vanadium { fill: #e67300; stroke: #e67300;}
+h5.vanadium {color: #e67300;}
+
+ul#minerals li.rareearthelements {background-color: #cca300} 
+path.arc.rareearthelements { stroke: #cca300;} 
+path.nation.rareearthelements { fill: #cca300; }
+h5.rareearthelements {color: #cca300} 
+
+ul#minerals li div div {
+	display: inline-block;
+	vertical-align: middle; 
+	padding: 0 0.5em 0 0.5em;
+}
+
+div.elementTitle { 
+	/*display: inline-block; */
+	position: absolute; left: 1em;
+	vertical-align: middle; 
+	font-size: 1.6em; font-weight: 800; 
+	text-transform: uppercase;
+}
+
+div.elementStats {  
+	right: 1em; position: absolute;
+}
+
+div.production {border-right: 1px solid black;}
+
+ul#minerals li span.figure { 
+	padding: 0.1em 0 0.1em 0; 
+	font-size: 2em; font-weight: 800; 
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+
+
+/*MAP ELEMENTS*/
+
+svg .land {
+  stroke-width: 0.5px;
+  stroke: gray;
+  fill: whitesmoke;
+}
+
+svg .sphere {
+  stroke-width: 0.5px;
+  stroke: gray;
+  fill: none;
+}
+
+path.graticule {fill: none; stroke: #eee;}
+
+svg text { font-family: sans-serif; stroke: none; fill: #222 }
+
+path.nation {cursor: pointer; stroke: #aaa; stroke-width: 1px; fill: #f0f0f0;}
+text.label {font-size: 9px;}
+text.title {font-size: 12px; font-weight: 800;}
+.mouseover {display: none; pointer-events: none; cursor: pointer; text-anchor: middle;}
+
+
+/*Responsive CSS (in progress)*/
+
+@media screen and (max-width: 650px) {
+	body {font-size: 10px;}
+	#mapInfoBox { width: 60%; background-color: rgba(255,255,255,);
+}
