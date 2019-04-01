@@ -51,7 +51,7 @@ div#map {
 	padding: 1em;
 	background-color: #fff;
 	width: 15%; height: auto;
-	min-width: 300px;
+	min-width: 220px;
 	z-index: 50;
 	pointer-events: none;
 }
