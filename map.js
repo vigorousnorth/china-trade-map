@@ -50,12 +50,40 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
   .then( geodata => {
   	
   	window.scrollTo(0,0);
+
+  	let container = d3.select('#map');
   	
   	geodata = topojson.simplify( topojson.presimplify(geodata), 0.02 );
   	
 		var graticule = d3.geoGraticule();
 
-		svg = d3.select('#map').append('svg');
+		console.log(tradeData);
+
+		var infoBox = container.append('div').selectAll('div.infoBox')
+			.data(tradeData)
+			.enter().append('div').attr('class','mapInfoBox hidden')
+			.attr('id', function(d) {return "ib_" + d.name.replace(/\s+/g, '').toLowerCase();});
+
+		infoBox.append('h4').attr('class','infoBox_Country')
+			.html(function(d) { return d.name; });
+		infoBox.append('h5')
+			.attr('class',function(d) { return 'infoBox_Mineral ' + d.info.element.replace(/\s+/g, '').toLowerCase(); })
+			.html(function(d) { return d.info.element; });
+		
+		let acquisitions = infoBox.append('p').attr('class','infoBox_Acquisitions')
+			.html("China acquires additional");
+		acquisitions.append('span').attr('class', 'infoBox_Production')
+			.html(function(d) { return "production: " + d.info.production; });
+		acquisitions.append('span').attr('class', 'infoBox_Reserves')
+			.html(function(d) { return "reserves: " + d.info.reserves; });
+
+		infoBox.append('p').attr('class',"infoBox_Chatter")
+			.html(function(d) {return d.info.chatter;});
+
+
+
+
+		svg = container.append('svg');
 
 		currentProjection = projection;
 
@@ -69,7 +97,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			scrollInit();
 	  	
 	  	width = d3.select("#map").node().getBoundingClientRect().width;
-	  	height = width * 0.5;
+	  	height = Math.min(width * 0.5, window.innerHeight);
 		 	
 		 	svg.attr('width', width)
 	      .attr('height', height);
@@ -77,7 +105,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 	    svg.selectAll('*').remove();
 
 			projection
-		  	.fitSize([width, height*1.1], {
+		  	.fitSize([width, height-20], {
 			    type: "Sphere"
 			  })
 	      .translate([width/2, height/2 + 10])
@@ -85,7 +113,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		  	.scale(width / 1.2);
 
 		  projection2
-		  	.fitSize([width, height*1.1], {
+		  	.fitSize([width, height-20], {
 			    type: "Sphere"
 			  })
 	      .translate([width/2, height/2 + 10])
@@ -146,32 +174,22 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		function showInfo(item) {
 			
 			let c = findElement(tradeData, "id", item.id);
+			let ib = document.getElementById("ib_" + c.name.replace(/\s+/g, '').toLowerCase());
 			
-			let ib_w = document.getElementById("mapInfoBox").getBoundingClientRect().width;
+			let ib_w = ib.getBoundingClientRect().width, ib_h = ib.getBoundingClientRect().height;
 			let c_x = pathGenerator.centroid(item)[0], c_y = pathGenerator.centroid(item)[1];
-			let ib_x = (c_x + ib_w > width) ? c_x - ib_w - 20 : c_x + 20 ;
+			let ib_x = (c_x + ib_w > width*0.8) ? c_x - ib_w - 20 : c_x + 20 ,
+				ib_y = (c_y + ib_h > height*0.8) ? c_y - ib_h - 20 : c_y + 20;
 
-			let ib = document.getElementById("mapInfoBox");
-
-			ib.style.top = c_y + 'px';
+			ib.style.top = ib_y + 'px';
 			ib.style.left = ib_x + 'px';
-			
-
-			d3.select("#infoBox_Country").html(c.name);
-			d3.select("#infoBox_Mineral")
-				.attr('class' , c.info.element.replace(/\s+/g, '').toLowerCase())
-				.html(c.info.element);
-			d3.select("#infoBox_Production").html(c.info.production);
-			d3.select("#infoBox_Reserves").html(c.info.reserves);
-
-			d3.select("#infoBox_Chatter").html(c.info.chatter);
 
 			ib.classList.remove('hidden');
 		}
 
 		function hideInfo(item) {
-			let ib = document.getElementById("mapInfoBox");
-
+			let c = findElement(tradeData, "id", item.id);
+			let ib = document.getElementById("ib_" + c.name.replace(/\s+/g, '').toLowerCase());
 			ib.classList.add('hidden');
 		}
 
@@ -182,7 +200,8 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			svg
 				.selectAll("path")
 				.transition()
-				.duration(6000).delay(500)
+				.ease(d3.easeLinear)
+				.duration(4000).delay(500)
 				.attr('opacity',1)	 
 				.style("stroke-width", null ) 
 				.attrTween("stroke-dasharray", tweenDash)
@@ -208,8 +227,8 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		        	// t goes from 0 to 1
 
 		          geoPathGenerator.projection()
-		          	.rotate(rotateInterpolator(Math.min(1,t*3)))
-		          	.scale(scaleInterpolator(Math.min(1,t*3)));
+		          	.rotate(rotateInterpolator(Math.min(1,t*2)))
+		          	.scale(scaleInterpolator(Math.min(1,t*2)));
 
 		          return geoPathGenerator(geoJsonFeature) || "";
 		        }
@@ -219,8 +238,8 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 		      		return function(t) {
 		      			let p = projection
-			          	.rotate(rotateInterpolator(Math.min(1,t*3)))
-		          		.scale(scaleInterpolator(Math.min(1,t*3)));
+			          	.rotate(rotateInterpolator(Math.min(1,t*2)))
+		          		.scale(scaleInterpolator(Math.min(1,t*2)));
 
 			          return drawCurve(p(chinaCoord) , p([d.lng, d.lat]), p(d.mid));
 		      		}
@@ -232,7 +251,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 				function tweenDash() {
 					if (d3.select(this).classed("arc")) {
 						var l = this.getTotalLength(),
-						    i = d3.interpolateString("0," + l, l + "," + l);
+						    i = d3.interpolateString("0," + 10*l, l + "," + l);
 						return function (t) { return i(t); };
 					} else { return ""; }
 				}
