@@ -50,7 +50,7 @@ div#map {
 	border: 2px solid #000;
 	padding: 1em;
 	background-color: #fff;
-	width: 15%; height: auto;
+	width: 20%; height: auto;
 	z-index: 50;
 	pointer-events: none;
 }
@@ -174,5 +174,19 @@ text.title {font-size: 12px; font-weight: 800;}
 
 @media screen and (max-width: 650px) {
 	body {font-size: 10px;}
-	#mapInfoBox { width: 60%; background-color: rgba(255,255,255,);
+
+	.mapInfoBox { 
+		width: 100%; 
+		background-color: rgba(255,255,255,); 
+		position: relative; display: block; 
+		padding: 0.2em;
+		border: none;
+		border-bottom: 1px dotted #222;
+	}
+	.mapInfoBox h4, .mapInfoBox h5 {display: inline-block; width: auto; padding: 0 0.2em; font-size: 0.8em; border: none;}
+
+
+	div.elementTitle {  left: 0.25em;	font-size: 1.5em; }
+	div.elementStats {  right: 0.2em;  }
+	ul#minerals li span.figure {	font-size: 1.6em; }
 }

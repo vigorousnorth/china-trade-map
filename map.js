@@ -57,7 +57,9 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
   	
 		var graticule = d3.geoGraticule();
 
-		console.log(tradeData);
+		svg = container.append('svg');
+
+		currentProjection = projection;
 
 		var infoBox = container.append('div').selectAll('div.infoBox')
 			.data(tradeData)
@@ -71,7 +73,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			.html(function(d) { return d.info.element; });
 		
 		let acquisitions = infoBox.append('p').attr('class','infoBox_Acquisitions')
-			.html("China acquires additional");
+			.html("China acquires additional ");
 		acquisitions.append('span').attr('class', 'infoBox_Production')
 			.html(function(d) { return "production: " + d.info.production; });
 		acquisitions.append('span').attr('class', 'infoBox_Reserves')
@@ -81,11 +83,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			.html(function(d) {return d.info.chatter;});
 
 
-
-
-		svg = container.append('svg');
-
-		currentProjection = projection;
 
 		drawMaps();
 	  
@@ -98,6 +95,8 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 	  	
 	  	width = d3.select("#map").node().getBoundingClientRect().width;
 	  	height = Math.min(width * 0.5, window.innerHeight);
+
+	  	if (width<650) {infoBox.classed('hidden',false);}
 
 	  	document.getElementById("section2").style.height = (height + mineralListHeight) * 2 + 'px';	
 		 	
@@ -145,12 +144,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 			var arcs = svg.append("g").selectAll('path.arc').data( tradeData, JSON.stringify );
 
-		  arcs.enter()
-		    .append('path')
-		    .attr('class', d => 'arc ' + d.info.element.replace(/\s+/g, '').toLowerCase() )
-		    .attr('d', d =>  drawCurve(projection2(chinaCoord), projection2([d.lng, d.lat]), projection2(d.mid) ) )
-		    .attr('opacity',0)
-
 			svg.append("path")
 		    .datum({ type: "Sphere" })
 		    .attr("d", pathGenerator)
@@ -164,13 +157,11 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		    .attr("d", pathGenerator)
 		    .lower();
 
-		  var arcs = svg.append("g").selectAll('path.arc').data( tradeData, JSON.stringify );
-
+		  var arcClass = (currentProjection === projection2) ? "arc " : "arc hidden " 
 		  arcs.enter()
 		    .append('path')
-		    .attr('class', d => 'arc ' + d.info.element.replace(/\s+/g, '').toLowerCase() )
-		    .attr('d', d =>  drawCurve(projection2(chinaCoord), projection2([d.lng, d.lat]), projection2(d.mid) ) )
-		    .attr('opacity',0);
+		    .attr('class', d => arcClass + d.info.element.replace(/\s+/g, '').toLowerCase() )
+		    .attr('d', d =>  drawCurve(currentProjection(chinaCoord), currentProjection([d.lng, d.lat]), currentProjection(d.mid) ) );
 		}
 
 		function showInfo(item) {
@@ -199,12 +190,13 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 			currentProjection = projection2;
 
+			svg.selectAll('path.arc').classed('hidden',false);
+
 			svg
 				.selectAll("path")
 				.transition()
 				.ease(d3.easeLinear)
-				.duration(4000).delay(500)
-				.attr('opacity',1)	 
+				.duration(6000)
 				.style("stroke-width", null ) 
 				.attrTween("stroke-dasharray", tweenDash)
 				.attrTween("d", function(geoJsonFeature) {
@@ -222,15 +214,18 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		      	projection2.scale()
 		      );
 
+        	// t goes from 0 to 1
+        	function globeTimer(t) {
+        		return Math.min(1, Math.max(0,t*3));
+        	}
+
 		      // find out if the landmasses or one of the circles is the element currently being transitioned
 		      if ( (d3.select(this).classed("land")) || (d3.select(this).classed("graticule")) ) {
 		        return function(t) {
 
-		        	// t goes from 0 to 1
-
 		          geoPathGenerator.projection()
-		          	.rotate(rotateInterpolator(Math.min(1,t*2)))
-		          	.scale(scaleInterpolator(Math.min(1,t*2)));
+		          	.rotate(rotateInterpolator(globeTimer(t)))
+		          	.scale(scaleInterpolator(globeTimer(t)));
 
 		          return geoPathGenerator(geoJsonFeature) || "";
 		        }
@@ -240,8 +235,8 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 		      		return function(t) {
 		      			let p = projection
-			          	.rotate(rotateInterpolator(Math.min(1,t*2)))
-		          		.scale(scaleInterpolator(Math.min(1,t*2)));
+			          	.rotate(rotateInterpolator(globeTimer(t)))
+		          		.scale(scaleInterpolator(globeTimer(t)));
 
 			          return drawCurve(p(chinaCoord) , p([d.lng, d.lat]), p(d.mid));
 		      		}
@@ -254,7 +249,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 					if (d3.select(this).classed("arc")) {
 						var l = this.getTotalLength(),
 						    i = d3.interpolateString("0," + 10*l, l + "," + l);
-						return function (t) { return i(t); };
+						return function (t) { return i(Math.max(0,1.5*t-0.5)); };
 					} else { return ""; }
 				}
 
