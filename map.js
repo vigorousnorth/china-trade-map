@@ -93,11 +93,13 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 			mapTop = document.getElementById("map").getBoundingClientRect().top;
 			mineralListHeight = document.getElementById("map").getBoundingClientRect().height;
-			 
+ 
 			scrollInit();
 	  	
 	  	width = d3.select("#map").node().getBoundingClientRect().width;
 	  	height = Math.min(width * 0.5, window.innerHeight);
+
+	  	document.getElementById("section2").style.height = (height + mineralListHeight) * 2 + 'px';	
 		 	
 		 	svg.attr('width', width)
 	      .attr('height', height);
@@ -105,7 +107,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 	    svg.selectAll('*').remove();
 
 			projection
-		  	.fitSize([width, height-20], {
+		  	.fitSize([width, height-30], {
 			    type: "Sphere"
 			  })
 	      .translate([width/2, height/2 + 10])
@@ -113,11 +115,11 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		  	.scale(width / 1.2);
 
 		  projection2
-		  	.fitSize([width, height-20], {
+		  	.fitSize([width, height-30], {
 			    type: "Sphere"
 			  })
 	      .translate([width/2, height/2 + 10])
-		    .scale(width/6).rotate([-5,0]);
+		    .scale(width/5.1).rotate([-5,0]);
 
 		  pathGenerator = d3.geoPath().projection(currentProjection);
 	
@@ -261,8 +263,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		}
 
 		function scrollInit() {
-
-			document.getElementById("section2").style.height= window.innerHeight*1.8 + 'px';	
 
 			window.addEventListener('scroll', function(e) {    // event triggers on scrolling
 			    var current = window.scrollY;
