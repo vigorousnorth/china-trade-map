@@ -1,13 +1,13 @@
 var canvas, pathGenerator, width, height;
 
-var zoomedOut = false, rotatemap, mapTop, mineralListHeight; // to be defined when DOM loads or window size changes, for scroll events
+var zooming = false, zoomedOut = false, 
+	rotatemap, mapTop, mineralListHeight; // to be defined when DOM loads or window size changes, for scroll events
 
 var projection = d3.geoEckert3(), projection2 = d3.geoEckert3();
 
 const chinaCoord = [103.8,37];
 
 var tradeData = [
-
 	{	"name": "United States", "id": "840", 
 		"lat": 40, "lng": -98, "mid": [90,90],
 		"ib_x" : 0.05, "ib_y": 0.385,
@@ -66,7 +66,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		currentProjection = projection;
 
 		var infoBox = container.append('div').attr('id','mapInfoBoxContainer')
-			.selectAll('div.infoBox')
+			.selectAll('div.mapInfoBox')
 			.data(tradeData)
 			.enter().append('div').attr('class','mapInfoBox hidden')
 			.attr('id', function(d) {return "ib_" + d.name.replace(/\s+/g, '').toLowerCase();});
@@ -88,13 +88,12 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			.html(function(d) {return d.info.chatter;});
 
 
-
 		drawMaps();
 	  
 		function drawMaps() {
 
 			mapTop = document.getElementById("map").getBoundingClientRect().top;
-			mineralListHeight = document.getElementById("map").getBoundingClientRect().height;
+			mineralListHeight = document.getElementById("mineralsTable").getBoundingClientRect().height;
  
 			scrollInit();
 	  	
@@ -102,38 +101,36 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 	  	height = Math.min(width * 0.6, window.innerHeight);
 
 	  	if (width<650) {
+	  			// infoBox.classed('hidden',false);
 	  			let ibh = d3.select('#mapInfoBoxContainer').node().getBoundingClientRect().height;
 	  			d3.select("#map").style('height', (height+ibh) + 'px');
-
-	  			outerHeight = d3.select('#map').node().getBoundingClientRect().height;
-
-	  			d3.select("#mineralsTable").style('top', -(outerHeight-20) + 'px');
+	  			d3.select("#mineralsTable").style('top', -(height+ibh-10) + 'px');
 	  			d3.selectAll('div.mapInfoBox').attr('style', "top: 0px; left:0px;") 
+
+
 		  } else { 
 		  		d3.select("#map").style('height', height + 'px');
-
-					outerHeight = d3.select('#map').node().getBoundingClientRect().height;
-
 					d3.select("#mineralsTable").style('top', -(height) + 'px');
 
+					outerHeight = d3.select('#map').node().getBoundingClientRect().height;
+		  		
 		  		d3.selectAll('div.mapInfoBox').attr('style', function(d) { 
 					let x = (d.ib_x*width).toFixed(2), y = (d.ib_y*outerHeight).toFixed(2);
 					return "left:" + x + "px; top:" + y +"px;" 
 				});
 			}
 
-	  	document.getElementById("section2").style.height = (height + mineralListHeight) * 2.5 + 'px';		
+	  	document.getElementById("section2").style.height = (height + mineralListHeight) * 2.5 + 'px';	
 		 	
-		 	svg.attr('width', width)
-	      .attr('height', height);
+		 	svg.attr('width', width).attr('height', height);
 
 	    svg.selectAll('*').remove();
 
 			projection
-		  	.fitSize([width, height-30], {
+		  	.fitSize([width, height], {
 			    type: "Sphere"
 			  })
-	      .translate([width/2, height/2 + 10])
+	      .translate([width/2, height/2 ])
 		    .rotate([-105, -35])
 		  	.scale(width / 1.2);
 
@@ -141,7 +138,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		  	.fitSize([width, height-30], {
 			    type: "Sphere"
 			  })
-	      .translate([width/2, height/2 + 10])
+	      .translate([width/2, height/2])
 		    .scale(width/5.1).rotate([-5,0]);
 
 		  pathGenerator = d3.geoPath().projection(currentProjection);
@@ -150,7 +147,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 				.data(topojson.feature(geodata, geodata.objects.countries).features)
 				.enter().append('path')
 				.attr("d", pathGenerator)
-				.attr('opacity',1)
 				.style("stroke", d => (d.id == "156") ? "rgba(255,0,0,0.5)" : null ) 
 				.style("stroke-width", d => (d.id == "156") ? "1.5px" : null ) 
 				.attr("class", d => {
@@ -161,10 +157,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 					else { return "nation land" }
 				})
 				.lower();
-
-			d3.selectAll('path.highlight')
-				.on('mouseover', showInfo)
-				.on('mouseout', hideInfo);
 
 			var arcs = svg.append("g").selectAll('path.arc').data( tradeData, JSON.stringify );
 
@@ -188,35 +180,19 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		    .attr('d', d =>  drawCurve(currentProjection(chinaCoord), currentProjection([d.lng, d.lat]), currentProjection(d.mid) ) );
 		}
 
-		function showInfo(item) {
-			
-			let c = findElement(tradeData, "id", item.id);
-			let ib = document.getElementById("ib_" + c.name.replace(/\s+/g, '').toLowerCase());
-			
-			ib.classList.remove('hidden');
-		}
-
-		function hideInfo(item) {
-			let c = findElement(tradeData, "id", item.id);
-			let ib = document.getElementById("ib_" + c.name.replace(/\s+/g, '').toLowerCase());
-			ib.classList.add('hidden');
-		}
-
 		function rotateMaps() {
 
-			console.log('rotating')
+			zooming = true;
 
 			currentProjection = projection2;
 
 			svg.selectAll('path.arc').classed('hidden',false);
-			
-			if (width<650) { 
-				d3.selectAll('.mapInfoBox')
-					.transition()
-					.delay(2500)
-					.style("opacity",1)
-					// .on('end', function() { d3.select(this).classed('hidden',false); });
-			}
+
+			d3.selectAll('.mapInfoBox')
+				.transition()
+				.delay(3000)
+				.style("opacity",1)
+				.on('end', function() { d3.select(this).classed('hidden',false); });
 
 			svg
 				.selectAll("path")
@@ -269,25 +245,32 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		      } else {
 		        return "";
 		      }
-		    });
+		    }).on('end', function() { zoomedOut = true; });
 
 				function tweenDash() {
 					if (d3.select(this).classed("arc")) {
 						var l = this.getTotalLength(),
 						    i = d3.interpolateString("0," + 10*l, l + "," + l);
-						return function (t) { return i(Math.max(0,1.5*t-0.5)); };
+						return function (t) { return i( Math.min(1, Math.max(0,t*1.5-0.5)) ); };
 					} else { return ""; }
 				}
 
-		    zoomedOut = true;
 
 		}
 
 		function scrollInit() {
+
 			window.addEventListener('scroll', function(e) {    // event triggers on scrolling
 			    var current = window.scrollY;
-			    if ((current > (mapTop + mineralListHeight - 50)) && !zoomedOut) {
+			    //console.log('y',current); 
+			    if ((current > (mapTop + mineralListHeight)) && !zoomedOut && !zooming) {
 			    	rotateMaps();
+			    } else if 
+			    	(zoomedOut && (document.getElementById("mineralsTable").getBoundingClientRect().bottom > 20)) {
+			    	console.log('up');
+			    	d3.selectAll('.mapInfoBox').style('opacity', 0);
+			    } else if (zoomedOut && (document.getElementById("mineralsTable").getBoundingClientRect().bottom <= 0)) {
+			    	d3.selectAll('.mapInfoBox').style('opacity', 1);
 			    }
 			});
 		}

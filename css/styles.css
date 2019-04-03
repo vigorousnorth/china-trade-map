@@ -4,9 +4,6 @@
 placeholder styling
 ====
 */
-
-
-
 body {
   font-family: sans-serif;
   margin: 10px auto;
@@ -24,7 +21,6 @@ div.section-block {
 
 h2.sectionTitle {text-align: center;}
 
-
 /*
 ==== 
 end of placeholder styling
@@ -38,32 +34,36 @@ div#map {
 	position: sticky; 
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  top: 0; height: 10em;
+  top: 0; min-height: 10em;
   z-index: 0;
+  padding-top: 50px; padding-bottom: 50px;
+  border: 1px solid red;
 }
 
+#map svg {position: sticky;}
 
 /*Map infobox styles*/
 
 .mapInfoBox {
 	position: absolute;
-	border: 2px solid #000;
-	padding: 1em;
-	background-color: #fff;
-	width: 20%; height: auto;
+	border: 1.5px solid #000;
+	padding: 0.5em;
+	font-size: 0.85em;
+	background-color: rgba(255,255,255,0.8);
+	width: 16%; height: auto;
 	z-index: 50;
 	pointer-events: none;
 }
 
-.hidden {visibility: hidden;}
+.hidden {opacity: 0; pointer-events: none;}
 
 .infoBox_Country {
 	width: 100%;
-	border-bottom: 1px solid #222;
+	border-bottom: 1px solid #222; margin: 1em 0;
 	font-size: 1.2em; text-transform: uppercase; font-weight: 800;
 }
-.infoBox_Mineral {font-size: 1em; text-transform: uppercase; font-weight: 800;}
-.infoBox_Acquisitions{font-size: 0.9em; text-transform: uppercase;}
+.infoBox_Mineral {font-size: 1em; margin: 0.5em 0; text-transform: uppercase; font-weight: 800;}
+.infoBox_Acquisitions {font-size: 0.9em; text-transform: uppercase;}
 .infoBox_Acquisitions span {display: inline-block; padding: 0 0.5em 0 0;}
 
 .infoBox_Acquisitions span.infoBox_Reserves {border-left: 1px solid #000;  padding: 0 0.5em;}
@@ -74,7 +74,7 @@ div#map {
 
 div#mineralsTable { 
   position: relative; top: 0px; left: 0px;
-  text-align: center;
+  text-align: center; padding-top: 20px;
   width: 100%; height: auto; 
 	z-index: 100; 
 }
@@ -95,7 +95,6 @@ ul#minerals li {
   display: flex; 
   align-items: center; 
   justify-content: center; 
-  background-color: cadetblue; /*(placeholder)*/
 }
 
 ul#minerals li.graphite {background-color: #dfbf9f} 
@@ -185,8 +184,20 @@ text.title {font-size: 12px; font-weight: 800;}
 	}
 	.mapInfoBox h4, .mapInfoBox h5 {display: inline-block; width: auto; padding: 0 0.2em; font-size: 0.8em; border: none;}
 
-
+	ul#minerals li {height: 2.5em;}
 	div.elementTitle {  left: 0.25em;	font-size: 1.5em; }
 	div.elementStats {  right: 0.2em;  }
 	ul#minerals li span.figure {	font-size: 1.6em; }
+
+	path.nation {stroke-width: 0.5px;}
+	path.arc {stroke-width: 1.5px;}
+}
+
+@media screen and (max-width: 500px) {
+	
+
+	div.elementTitle {  left: 0.25em;	font-size: 1em; }
+	div.elementStats {  right: 0.2em;  }
+	ul#minerals li {height: 2em;}
+	ul#minerals li span.figure {	font-size: 1.1em; }
 }
