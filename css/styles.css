@@ -15,7 +15,7 @@ div.section-block {
 	margin: 2em auto; padding: 10% auto;
 }
 
-#section1, #section3 {min-height: 1400px;}
+#section1, #section3 {min-height: 800px;}
 
 #section1 p , #section3 p {font-size: 1.1em; text-align: center; padding: 4em;}
 
@@ -65,8 +65,6 @@ div#map {
 .infoBox_Mineral {font-size: 1em; margin: 0.5em 0; text-transform: uppercase; font-weight: 800;}
 .infoBox_Acquisitions {font-size: 0.9em; text-transform: uppercase;}
 .infoBox_Acquisitions span {display: inline-block; padding: 0 0.5em 0 0;}
-
-.infoBox_Acquisitions span.infoBox_Reserves {border-left: 1px solid #000;  padding: 0 0.5em;}
 
 
 
