@@ -226,8 +226,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 		function toggleTradeLines() {				
 			if (!tradeLinesAnimating) {
-				console.log('animating; lines going out: ', linesGoOut)
-				
 				svg.selectAll("path.arc").transition().duration(1000) 
 					.attrTween("stroke-dasharray", tweenDash)
 					.on('end', function() { tradeLinesAnimating = false;});
@@ -257,8 +255,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			    } else if 
 			    	(zoomedOut && (mineralsTableFloor > 20)) {
 			    	
-				  	console.log('scrolling up');
-
+				  
 				  	// if the trade lines are drawn and aren't animating, hide them: 
 				  	if (!tradeLinesAnimating & areLinesDrawn() ) { linesGoOut = !areLinesDrawn(); toggleTradeLines(); }
 
@@ -266,8 +263,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 			    } else if (zoomedOut && (mineralsTableFloor <= 0)) {
 
-			    	console.log('scrolling down again');
-				  	
+			    	
 				  	// if the trade lines aren't drawn or animating, show them again:
 				  	if (!tradeLinesAnimating && !areLinesDrawn() ) { linesGoOut = !areLinesDrawn(); toggleTradeLines(); }
 
