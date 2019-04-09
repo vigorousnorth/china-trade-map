@@ -33,7 +33,6 @@ div#map {
 	width: 100%;
 	position: sticky; 
   position: -webkit-sticky; /* Safari */
-  -webkit-transform: translate3d(0,0,0);
   position: sticky;
   top: 0; min-height: 10em;
   z-index: 0;
@@ -76,6 +75,7 @@ div#mineralsTable {
   text-align: center; padding-top: 20px;
   width: 100%; height: auto; 
 	z-index: 1000; 
+  -webkit-transform: translate3d(0,0,0);
 }
 
 ul#minerals { 
