@@ -1,4 +1,4 @@
-var sec2_svg, pathGenerator, sec2_width, height;
+var sec2_svg = null, pathGenerator, sec2_width, height;
 
 var zooming = false, zoomedOut = false, linesGoOut = true,
 	rotatemap, mapTop, mineralListHeight; // to be defined when DOM loads or window size changes, for scroll events
