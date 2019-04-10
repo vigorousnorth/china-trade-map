@@ -235,7 +235,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		function areLinesDrawn() {
 		// Function will return TRUE if the path's stroke arrays are solid lines, false otherwise.
 			var currentStrokeArray,  
-				s = sec2_svg.selectAll("path.arc").nodes()[0];
+				s = d3.select('#map').selectAll("path.arc").nodes()[0];
 			currentStrokeArray = d3.select(s).attr('stroke-dasharray').split(','); 
 			return (currentStrokeArray[0] === currentStrokeArray[1]);  	
 		}
