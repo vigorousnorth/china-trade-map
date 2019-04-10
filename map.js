@@ -116,18 +116,19 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 				})
 				.lower();
 
-			sec2_svg.append("path")
+			var mapBackground = sec2_svg.append("g")
+				.lower();
+
+			mapBackground.append("path")
 		    .datum({ type: "Sphere" })
 		    .attr("d", pathGenerator)
 		    .classed("sphere", true)
-		    .lower();
-
-		  sec2_svg.append("path")
+		    
+		  mapBackground.append("path")
 		    .datum(graticule)
 		    .attr("class", "graticule")
 		    .attr('fill','none').attr('stroke','#ddd')
-		    .attr("d", pathGenerator)
-		    .lower();
+		    .attr("d", pathGenerator);
 
 		  var arcClass = (zoomedOut || zooming) ? "arc " : "arc hidden ";
 
@@ -211,7 +212,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		}
 
 		function tweenDash() {
-
 			tradeLinesAnimating = true; 
 
 			if (d3.select(this).classed("arc")) {
