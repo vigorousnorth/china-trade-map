@@ -1,4 +1,5 @@
-var sec2_svg = null, pathGenerator, sec2_width, height;
+var sec2_svg = null, pathGenerator, sec2_width, height, viewportWidth = window.innerWidth;
+
 
 var zooming = false, zoomedOut = false, linesGoOut = true,
 	rotatemap, mapTop, mineralListHeight; // to be defined when DOM loads or window size changes, for scroll events
@@ -138,7 +139,6 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		  	.enter()
 		    .append('path')
 		    .attr('class', d => arcClass + d.info.element.replace(/\s+/g, '').toLowerCase() )
-		    .attr('stroke-dasharray', '0,1')
 		    .attr('d', d =>  drawCurve(currentProjection(chinaCoord), currentProjection([d.lng, d.lat]), currentProjection(d.mid) ) );
 		}
 
@@ -275,7 +275,9 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 			});
 		}
 
-		window.addEventListener("resize", drawMaps);
+		window.addEventListener("resize", function() {
+			if (window.innerWidth != viewportWidth)  { viewportWidth = window.innerWidth; drawMaps(); }
+		});
  
 });
 
