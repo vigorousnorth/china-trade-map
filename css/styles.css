@@ -15,7 +15,7 @@ div.section-block {
 	margin: 2em auto; padding: 10% auto;
 }
 
-#section1, #section3 {min-height: 800px;}
+#section1, #section3 {min-height: 1200px;}
 
 #section1 p , #section3 p {font-size: 1.1em; text-align: center; padding: 4em;}
 
