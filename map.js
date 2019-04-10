@@ -138,6 +138,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 		  	.data( tradeData, JSON.stringify )
 		  	.enter()
 		    .append('path')
+		    .attr('stroke-dasharray',null)
 		    .attr('class', d => arcClass + d.info.element.replace(/\s+/g, '').toLowerCase() )
 		    .attr('d', d =>  drawCurve(currentProjection(chinaCoord), currentProjection([d.lng, d.lat]), currentProjection(d.mid) ) );
 		}
@@ -235,10 +236,14 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 		function areLinesDrawn() {
 		// Function will return TRUE if the path's stroke arrays are solid lines, false otherwise.
-			var currentStrokeArray,  
-				s = arcs.nodes()[0];
-			currentStrokeArray = d3.select(s).attr('stroke-dasharray').split(','); 
-			return (currentStrokeArray[0] === currentStrokeArray[1]);  	
+			var returnVal, currentStrokeArray,  
+				s = arcs.nodes()[0],
+				isNull = (d3.select(s).attr('stroke-dasharray') === null);
+			if (!isNull) { 
+				currentStrokeArray = d3.select(s).attr('stroke-dasharray').split(','); 
+				return (currentStrokeArray[0] === currentStrokeArray[1]); 
+			} 
+			else { return true; }	
 		}
 
 		function scrollInit() {
