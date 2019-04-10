@@ -1,4 +1,4 @@
-var canvas, pathGenerator, width, height;
+var sec2_svg, pathGenerator, sec2_width, height;
 
 var zooming = false, zoomedOut = false, linesGoOut = true,
 	rotatemap, mapTop, mineralListHeight; // to be defined when DOM loads or window size changes, for scroll events
@@ -16,9 +16,9 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
   	
   	geodata = topojson.simplify( topojson.presimplify(geodata), 0.02 );
   	
-		var graticule = d3.geoGraticule();
+		var arcs, graticule = d3.geoGraticule();
 
-		var arcs, svg = container.append('svg');
+		sec2_svg = container.append('svg');
 
 		currentProjection = projection;
 
@@ -55,10 +55,10 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
  
 			scrollInit();
 	  	
-	  	width = d3.select("#map").node().getBoundingClientRect().width;
-	  	height = Math.min(width * 0.6, window.innerHeight);
+	  	sec2_width = d3.select("#map").node().getBoundingClientRect().width;
+	  	height = Math.min(sec2_width * 0.6, window.innerHeight);
 
-	  	if (width<650) {
+	  	if (sec2_width<650) {
 	  			// infoBox.classed('hidden',false);
 	  			let ibh = d3.select('#mapInfoBoxContainer').node().getBoundingClientRect().height;
 	  			d3.select("#map").style('height', (height+ibh) + 'px');
@@ -73,35 +73,35 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 					outerHeight = d3.select('#map').node().getBoundingClientRect().height;
 		  		
 		  		d3.selectAll('div.mapInfoBox').attr('style', function(d) { 
-					let x = (d.ib_x*width).toFixed(2), y = (d.ib_y*outerHeight).toFixed(2);
+					let x = (d.ib_x*sec2_width).toFixed(2), y = (d.ib_y*outerHeight).toFixed(2);
 					return "left:" + x + "px; top:" + y +"px;" 
 				});
 			}
 
 	  	document.getElementById("section2").style.height = (height + mineralListHeight) * 2.5 + 'px';	
 		 	
-		 	svg.attr('width', width).attr('height', height);
+		 	sec2_svg.attr('width', sec2_width).attr('height', height);
 
-	    svg.selectAll('*').remove();
+	    sec2_svg.selectAll('*').remove();
 
 			projection
-		  	.fitSize([width, height], {
+		  	.fitSize([sec2_width, height], {
 			    type: "Sphere"
 			  })
-	      .translate([width/2, height/2 ])
+	      .translate([sec2_width/2, height/2 ])
 		    .rotate([-105, -35])
-		  	.scale(width / 1.2);
+		  	.scale(sec2_width / 1.2);
 
 		  projection2
-		  	.fitSize([width, height-30], {
+		  	.fitSize([sec2_width, height-30], {
 			    type: "Sphere"
 			  })
-	      .translate([width/2, height/2])
-		    .scale(width/5.1).rotate([-5,0]);
+	      .translate([sec2_width/2, height/2])
+		    .scale(sec2_width/5.1).rotate([-5,0]);
 
 		  pathGenerator = d3.geoPath().projection(currentProjection);
 	
-			var nations = svg.append('g').attr("id","nationPaths").selectAll("path.nation")
+			var nations = sec2_svg.append('g').attr("id","nationPaths").selectAll("path.nation")
 				.data(topojson.feature(geodata, geodata.objects.countries).features)
 				.enter().append('path')
 				.attr("d", pathGenerator)
@@ -116,13 +116,13 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 				})
 				.lower();
 
-			svg.append("path")
+			sec2_svg.append("path")
 		    .datum({ type: "Sphere" })
 		    .attr("d", pathGenerator)
 		    .classed("sphere", true)
 		    .lower();
 
-		  svg.append("path")
+		  sec2_svg.append("path")
 		    .datum(graticule)
 		    .attr("class", "graticule")
 		    .attr('fill','none').attr('stroke','#ddd')
@@ -131,7 +131,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 		  var arcClass = (zoomedOut || zooming) ? "arc " : "arc hidden ";
 
-		  arcs = svg.append("g").attr('id','tradeArcs')
+		  arcs = sec2_svg.append("g").attr('id','tradeArcs')
 		  	.selectAll('path.arc')
 		  	.data( tradeData, JSON.stringify )
 		  	.enter()
@@ -152,7 +152,7 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 				.style("opacity",1)
 				.on('end', function() { d3.select(this).classed('hidden',false); });
 
-			svg
+			sec2_svg
 				.selectAll("path")
 				.transition()
 				.ease(d3.easeLinear)
@@ -226,26 +226,24 @@ const nations = d3.json("https://unpkg.com/world-atlas@1/world/50m.json")
 
 		function toggleTradeLines() {				
 			if (!tradeLinesAnimating) {
-				svg.selectAll("path.arc").transition().duration(1000) 
+				sec2_svg.selectAll("path.arc").transition().duration(1000) 
 					.attrTween("stroke-dasharray", tweenDash)
 					.on('end', function() { tradeLinesAnimating = false;});
 			}
 		}
 
 		function areLinesDrawn() {
-			 // Function will return TRUE if the current path's stroke array is a solid line, false otherwise.
-
-			var s = svg.selectAll("path.arc");
-    	var currentStrokeArray = s.attr('stroke-dasharray').split(','); 
-    	
-    	return (currentStrokeArray[0] === currentStrokeArray[1]);   	
+		// Function will return TRUE if the path's stroke arrays are solid lines, false otherwise.
+			var currentStrokeArray,  
+				s = sec2_svg.selectAll("path.arc").nodes()[0];
+			currentStrokeArray = d3.select(s).attr('stroke-dasharray').split(','); 
+			return (currentStrokeArray[0] === currentStrokeArray[1]);  	
 		}
 
 		function scrollInit() {
 
-			window.addEventListener('scroll', function(e) {    // event triggers on scrolling
-
-
+			window.addEventListener('scroll', function(e) {    
+			// event triggers on scrolling
 			    var current = window.scrollY;
 			    var mineralsTableFloor = document.getElementById("mineralsTable").getBoundingClientRect().bottom;
 
