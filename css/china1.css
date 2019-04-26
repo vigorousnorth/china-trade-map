@@ -1,0 +1,252 @@
+@font-face {
+  font-family: "Solido";
+  font-style: normal;
+  font-weight: 900;
+  src: url(../../../assets/dist/fonts/solido--normal--900.woff2) format('woff2'),
+       url(../../../assets/dist/fonts/solido--normal--900.woff) format('woff');
+}
+
+@font-face {
+  font-family: "Solido";
+  font-style: normal;
+  font-weight: 300;
+  src: url(../../../assets/dist/fonts/solido--normal--300.woff2) format('woff2'),
+       url(../../../assets/dist/fonts/solido--normal--300.woff) format('woff');
+}
+
+@font-face {
+  font-family: "Tiempos";
+  font-style: italic;
+  font-weight: 500;
+  src: url(../../../assets/dist/fonts/tiempos--italic--500.woff2) format('woff2'),
+       url(../../../assets/dist/fonts/tiempos--italic--500.woff) format('woff');
+}
+
+.wide_header { margin-top: 60px; }
+
+.wide_copy{padding:2em; max-width:800px;}.wide_copy.no-padding{padding-top: 0; padding-bottom: 0;} .author-bio p{font-family:"Tiempos";font-size:inherit}
+
+.wide_header_text .wide_header_title, .wide_header_text .wide_header_subtitle, .section_header_title, .section_header_subtitle, .graphic-name, #map-container, .quote-right p, .legend {font-family: "Solido" !important;}
+.legend-entries {font-size: 0.85em;}
+
+.wide_header_text{text-align:left;position:relative;padding:2em 2em .6em;width:80%;max-width: 800px;left:0;margin: 0 auto;}.wide_header_text .wide_header_title{font-weight: 900; font-size: 6em;padding:25px 0px 8px;line-height:0.85em !important;}
+.wide_header_text .wide_header_subtitle {padding: 8px 0 2%;font-weight:300;font-size:1.7em !important;line-height:1.2em!important;}
+
+.wide_header_section{position:relative; background-color: #eb1414; color: #fff !important; font-size: 0.9em !important;
+    font-family: "Solido",helvetica,arial,sans-serif !important; padding: 0.5em; letter-spacing: 0 !important; top:10%; text-transform: uppercase;}
+
+.wide_header_text .wide_header_author_redesign {
+  margin: 2% 0 0;
+  padding: 0.25em 0 0.75em;
+}
+
+.wide_header_text .wide_header_author_redesign::after {
+  border-top: 1px solid #111;
+  content: ' ';
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 2em;
+  width: 25%;
+}
+
+.wide_inset_photo{width:80%}
+
+hr.mini {
+  height: 1px;
+  width: 1000px;
+  margin: 0 auto;
+}
+hr.maxi {
+  height: 10px;
+  width: 100%;
+  margin: 2em auto;
+}
+
+
+/*Parts 1-3*/
+
+.department-name h3, .graphic-name h3 {
+  color: #000;
+  font-size: 1.2em;
+}
+
+p.section_header_title {
+  padding: 8px 0 2%;
+  font-weight:300;
+  font-size:2em;
+  line-height:1.2em;
+  margin: 0 auto;
+}
+
+p.section_header_subtitle {
+  font-size: 1.6em;
+  font-weight: 900;
+  line-height: 2rem;
+}
+
+.graphic-name {
+  text-align: center;
+  max-width: 750px;
+  margin: 1em auto;
+  text-transform: uppercase;
+}
+
+.wide_copy .text_width { margin: 4em auto; }
+div.text_width .wp-caption-text { padding-top: 0em; }
+
+#map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.legend-entries {
+    margin: 0 1em;
+    display: flex;
+    align-items: center;
+}
+
+#map-container {
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  position: relative;
+}
+
+.element_name, .country_name { text-transform: uppercase; }
+.country_name { font-size: 1.25em; }
+.element_name { font-size: 1.5em; font-weight: 700; line-height: 1.5em; }
+
+  .hoverinfo {
+    border: 1.5px solid #000;
+    width: 300px;
+    height: auto;
+    padding: 1em;
+    z-index: 50;
+    pointer-events: none;
+    color: #fff;
+  }
+
+  .hoverinfo.straya {
+    position: absolute;
+    left: -150px;
+  }
+
+  path.datamaps-subunit.CHN { stroke: #dfbf9f !important; }
+
+  .hoverinfo, .quote-right p {line-height: 1.4em;margin: 0.2em 0;}
+
+  .wide_copy.mobile { display: none; }
+
+  .niobium, #circle-niobium {background-color: #E59A00;}
+  .lithium, #circle-lithium {background-color: #DE2B26;}
+  .cobalt, #circle-cobalt {background-color: #0D625F;}
+  .pgms, #circle-pgms {background-color: #A9CCAF;}
+
+  #circle-niobium, #circle-lithium, #circle-cobalt, #circle-pgms {width: 10px; height: 10px;}
+
+  .circle {border-radius: 50%; margin-right: 0.25em;}
+
+
+/*END*/
+
+.fp-analytics, .b-block {
+  display: flex;
+}
+
+.fp-analytics img {
+  width: 125px;
+  flex-basis: 125px;
+  margin-right: 1em;
+}
+
+.b-block-wrapper {
+  font-size: 1.1em;
+  margin-top: 1.7em;
+}
+
+.grid--flex { flex-wrap: wrap; }
+
+.b-block { justify-content: space-between; }
+
+.content-block {
+  width: 47%;
+  flex-basis: 47%;
+}
+.excerpt-content { margin: 0 0 1em; }
+
+.b-block .figure-image img { margin: 0; }
+
+/* QUERIES */
+
+@media screen and (max-width:850px) {
+    #map-container {
+        height: 500px;
+    }
+}
+
+@media screen and (max-width:767px) {
+
+    hr.mini { width: 90%; margin: 2em auto; }
+    hr.maxi { width: 100%; margin: 2em 0; }
+
+    .wide_content .wide_copy, .wide_header_text { padding: 0.6em; }
+    .wide_header_text .wide_header_author_redesign::after { left: 0.6em; }
+
+    .wide_header_text .wide_header_title {
+        font-size: 4em !important;
+    }
+
+    .wide_header_subtitle {
+        font-size: 1.1em !important;
+    }
+
+    .quote-right {
+      margin: 1em 0;
+      width: 100%;
+      max-width: none;
+    }
+
+    .wide_copy.mobile { display: block; }
+    #map-legend, .desktop {display: none;}
+    .graphic-name { width: 80%; }
+
+}
+
+@media screen and (max-width:700px) {
+  .wide_header_text { width: 90%; }
+}
+
+@media screen and (max-width: 650px) {
+
+    /*.legend-entries {
+        flex-basis: 18%;
+        justify-content: center;
+    }*/
+
+    .b-block {
+      flex-direction: column;
+    }
+
+    .content-block {
+      width: 100%;
+      flex-basis: 100%;
+    }
+
+    .excerpt-content {
+      margin: 0 0 1em;
+    }
+}
+
+@media screen and (max-width:500px) {
+    #map-container {height: 300px;}
+}
+
+@media screen and (max-width: 450px) {
+
+  .wide_header_text .wide_header_title { font-size: 3.5em !important; }
+  .wide_header_text .wide_header_subtitle { font-size: 1.2em !important; }
+  .wide_header_text .wide_header_author_redesign { font-size: 0.9em; }
+}

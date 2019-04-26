@@ -43,6 +43,8 @@ div#animatedMap {
   /*border: 1px solid red; */ /* for debugging purposes only */
 }
 
+#animatedMapContainer{ padding-bottom: 4em; }
+
 #animatedMap svg {position: sticky; z-index: 1;}
 
 #animatedMap svg .land {

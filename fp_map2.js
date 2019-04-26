@@ -39,6 +39,7 @@ d3.json("https://unpkg.com/world-atlas@1.1.4/world/110m.json", function(error, n
 // 		 80 percent
 // </div></div>
 
+// CHANGED TO EMULATE FORMAT OF SECTION 1 INFO BOXES
 		var infoBox = container.append('div').attr('id','mapInfoBoxContainer')
 			.selectAll('div.mapInfoBox')
 			.data(tradeData)
@@ -100,7 +101,7 @@ d3.json("https://unpkg.com/world-atlas@1.1.4/world/110m.json", function(error, n
 
 			
 // CHANGED TO REDUCE THE HEIGHT OF THE STICKY CONTAINER
-	  	document.getElementById("animatedMapContainer").style.height = (height + mineralListHeight) * 2 + 'px';
+	  	document.getElementById("animatedMapContainer").style.height = (height + mineralListHeight) + window.innerHeight/2 + 'px';
 
 		 	sec2_svg.attr('width', sec2_width).attr('height', height);
 
