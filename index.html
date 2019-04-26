@@ -4,17 +4,15 @@
 
 </head><body>
 
-<script src="js/jquery.js"></script>
-<script src="js/d3.v5.min.js"></script>
-<script src="js/topojson.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-<script src="https://unpkg.com/topojson-simplify@3.0.2/dist/topojson-simplify.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js?ver=4.9.1"></script>
+<script src="js/topojson.v1.min.js"></script>
+<script src="js/d3.geo.projection.v0.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
-
+<link rel="stylesheet" type="text/css" href="css/china1.css" />
 
 <script src="tradeData.js"></script>
-<script src="map.js"></script>
+<script src="fp_map2.js"></script>
 
 
 <!-- html body -->
@@ -26,17 +24,24 @@
 	<p>...</p>
 </div>
 
-<div class="section-block" id="section2">
 
-	
+
+
+<!-- 
+=======================
+embed this HTML from here....
+======================= 
+-->
+
+<div  id="animatedMapContainer" style="border: 2px solid red;">
 
 	<h2 class="sectionTitle">Section 2</h2>	
 
-	<div id ="map">
-	</div>
+	<div id ="animatedMap" style="border: 2px solid black;">	</div>
 
 	
 	<div id ="mineralsTable">
+
 	<h2>MINERALS IN WHICH CHINA ALREADY DOMINATES, BY PERCENTAGE</h2>
 	<ul id ="minerals">
 		<li class="graphite">
@@ -61,12 +66,24 @@
 		  </div>
 		</li>
 	</ul>
-	</div>
+
+	</div><!--  end of div#mineralsTable -->
 
 
-</div>
+</div> <!--  end of div#animatedMapContainer -->
 
-</div><!--  end of section 2 -->
+
+<!-- 
+=======================
+to here.
+======================= 
+-->
+
+<p class="section1_footnote" style="max-width: 750px; margin: 2em auto;">Representative examples of significant Chinese investment in additional resource development, not necessarily an exhaustive list. Sources: USGS; FP Analytics analysis of company filings, deal flows, equity stakes and off-take agreements</p>
+
+
+
+
 
 <div class="section-block" id="section3" style="background-color: #fff;">
 	<h2 class="sectionTitle">End of map visualization - begin section 3</h2>	

@@ -29,7 +29,10 @@ end of placeholder styling
 
 
 
-div#map {
+
+/* Section 2 map styles*/
+
+div#animatedMap {
 	width: 100%;
 	position: sticky; 
   position: -webkit-sticky; /* Safari */
@@ -37,21 +40,45 @@ div#map {
   top: 0; min-height: 10em;
   z-index: 0;
   padding-top: 50px; padding-bottom: 50px;
-  /*border: 1px solid red;*/
+  /*border: 1px solid red; */ /* for debugging purposes only */
 }
 
-#map svg {position: sticky; z-index: 1;}
+#animatedMap svg {position: sticky; z-index: 1;}
+
+#animatedMap svg .land {
+  stroke-width: 0.5px;
+  stroke: gray;
+  fill: whitesmoke;
+}
+
+#animatedMap svg .sphere {
+  stroke-width: 0.5px;
+  stroke: gray;
+  fill: none;
+}
+
+#animatedMap path.graticule {fill: none; stroke: #eee;}
+
+#animatedMap path.arc { fill: none; stroke-width: 2px; }
+
+#animatedMap path.nation {cursor: pointer; stroke: #aaa; stroke-width: 1px; fill: #f0f0f0;}
+#animatedMap text.label {font-size: 9px;}
+#animatedMap text.title {font-size: 12px; font-weight: 800;}
+
 
 /*Map infobox styles*/
 
 .mapInfoBox {
 	position: absolute;
-	border: 1.5px solid #000;
-	padding: 0.5em;
-	font-size: 0.85em;
-	background-color: rgba(255,255,255,0.8);
+  border: 1.5px solid #000;
+  width: 300px;
+  height: auto;
+  font-size: 12px;
+  padding: 1em; 
+  pointer-events: none;
+  color: #fff;
 	width: 16%; height: auto;
-	z-index: 50;
+	z-index: 20;
 	pointer-events: none;
 }
 
@@ -74,7 +101,7 @@ div#mineralsTable {
   position: relative; top: 0px; left: 0px;
   text-align: center; padding-top: 20px;
   width: 100%; height: auto; 
-	z-index: 1000; 
+	z-index: 20; 
   -webkit-transform: translate3d(0,0,0);
 }
 
@@ -96,20 +123,20 @@ ul#minerals li {
   justify-content: center; 
 }
 
-ul#minerals li.graphite {background-color: #dfbf9f} 
-path.arc.graphite { stroke: #dfbf9f; } 
-path.nation.graphite { fill: #dfbf9f; }
-h5.graphite {color: #dfbf9f} 
+#mineralsTable ul#minerals li.graphite, .mapInfoBox.graphite {background-color: #E59A00} 
+#animatedMap path.arc.graphite { stroke: #E59A00; } 
+#animatedMap path.nation.graphite { fill: #E59A00; }
+/*h5.graphite {color: #dfbf9f} */
 
-ul#minerals li.vanadium {background-color: #e67300} 
-path.arc.vanadium { stroke: #e67300; } 
-path.nation.vanadium { fill: #e67300; stroke: #e67300;}
-h5.vanadium {color: #e67300;}
+#mineralsTable ul#minerals li.vanadium, .mapInfoBox.vanadium {background-color: #0D625F} 
+#animatedMap path.arc.vanadium { stroke: #0D625F; } 
+#animatedMap path.nation.vanadium { fill: #0D625F; stroke: #0D625F;}
+/*h5.vanadium {color: #e67300;}*/
 
-ul#minerals li.rareearthelements {background-color: #cca300} 
-path.arc.rareearthelements { stroke: #cca300;} 
-path.nation.rareearthelements { fill: #cca300; }
-h5.rareearthelements {color: #cca300} 
+#mineralsTable ul#minerals li.rareearthelements, .mapInfoBox.rareearthelements {background-color: #DE2B26} 
+#animatedMap path.arc.rareearthelements { stroke: #DE2B26;} 
+#animatedMap path.nation.rareearthelements { fill: #DE2B26; }
+/*h5.rareearthelements {color: #cca300} */
 
 
 div.elementTitle { 
@@ -143,32 +170,8 @@ div.production {border-right: 1px solid #fff;}
 
 
 
-/*MAP ELEMENTS*/
 
-svg .land {
-  stroke-width: 0.5px;
-  stroke: gray;
-  fill: whitesmoke;
-}
-
-svg .sphere {
-  stroke-width: 0.5px;
-  stroke: gray;
-  fill: none;
-}
-
-path.graticule {fill: none; stroke: #eee;}
-
-svg text { font-family: sans-serif; stroke: none; fill: #222 }
-
-
-path.arc { fill: none; stroke-width: 2px; }
-
-path.nation {cursor: pointer; stroke: #aaa; stroke-width: 1px; fill: #f0f0f0;}
-text.label {font-size: 9px;}
-text.title {font-size: 12px; font-weight: 800;}
-
-/*Responsive CSS (in progress)*/
+/*Responsive CSS for map info boxes and div#mineralsTable */
 
 @media screen and (max-width: 650px) {
 	body {font-size: 10px;}
@@ -177,12 +180,18 @@ text.title {font-size: 12px; font-weight: 800;}
 		width: 100%; 
 		background-color: rgba(255,255,255,); 
 		position: relative; display: block; 
-		padding: 0.2em;
+		font-size: 10px;
+		padding: 0.1em;
+		margin: 0.2em 0;
 		border: none;
-		border-bottom: 1px dotted #222;
 	}
-	.mapInfoBox h4, .mapInfoBox h5 {display: inline-block; width: auto; padding: 0 0.2em; font-size: 0.8em; border: none;}
-
+	.mapInfoBox h4, .mapInfoBox h5 {
+		display: inline-block; 
+		width: 49%; padding: 0; 
+		font-size: 1em; 
+		border: none;
+	}
+	.mapInfoBox .element_name {text-align: right;}
 	ul#minerals li {height: 2.5em;}
 	div.elementTitle {  left: 0.25em;	font-size: 1.5em; }
 	div.elementStats {  right: 0.2em;  }
