@@ -73,6 +73,7 @@ d3.json("https://unpkg.com/world-atlas@1.1.4/world/110m.json", function(error, n
 
 			mapTop = document.getElementById("animatedMap").getBoundingClientRect().top;
 			mineralListHeight = document.getElementById("mineralsTable").getBoundingClientRect().height;
+			infoBoxHeight =  document.getElementById("mapInfoBoxContainer").getBoundingClientRect().height;
 
 			scrollInit();
 
@@ -101,7 +102,7 @@ d3.json("https://unpkg.com/world-atlas@1.1.4/world/110m.json", function(error, n
 
 			
 // CHANGED TO REDUCE THE HEIGHT OF THE STICKY CONTAINER
-	  	document.getElementById("animatedMapContainer").style.height = (height + mineralListHeight) + window.innerHeight/2 + 'px';
+	  	document.getElementById("animatedMapContainer").style.height = (height + mineralListHeight + infoBoxHeight) + window.innerHeight*.5 + 'px';
 
 		 	sec2_svg.attr('width', sec2_width).attr('height', height);
 
